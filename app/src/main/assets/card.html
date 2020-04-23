@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<meta name="author" content="Capt Ar Kar Myo">
+	<title>Cards</title>
+	
+
+
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="css/all.css">
+	<!-- Bootstrap core CSS -->
+	<link rel="stylesheet" href="css/mdb.min.css">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<!-- Material Design Bootstrap -->
+	
+	<!-- Our custom styles (optional) -->
+	<link rel="stylesheet" href="css/teamcs.css">
+	<link rel="icon" href="images/app_icon.png" type="image/gif" sizes="16x16">
+
+	<script src="js/rabbit.js"></script>
+	<style>
+		.my_card{
+			margin-bottom: 20px;
+		}
+		.no_link{
+			text-decoration: none;
+		}
+		@font-face 
+		{
+		  font-family: 'Pyidaungsu';
+		  src: URL('font/Pyidaungsu.ttf') format('truetype');
+		}
+		body
+		{
+			font-family: Pyidaungsu;
+		}
+		.flex_main,.flex_main1
+		{
+			display: flex;
+			flex-wrap: wrap;
+			background-color:rgba(0,0,0,0.1);
+		}
+		.flex_inner,.flex_inner1
+		{
+			width: 400px;
+			height: auto;
+			margin: 10px;
+  			text-align: center; 			
+  			background:linear-gradient(0.25turn,#3f67,#ebf8,#f63c);  			
+		}
+		#newcardbtn
+		{
+			color: white;
+			background-color: green;
+			border: none;
+			border-radius: 7px;
+		}
+		.modaldiv,.modaldivupdate
+		{
+			width: 80%;
+			height:auto;
+			position: absolute;
+			z-index: 1000;
+			left: 10%;
+			top: 15%;
+			border-radius: 7px;
+			/*background-color: gray;*/
+			background:linear-gradient(0.25turn,#3f67a6,#ebf8e1,#f69d3c);
+			display: none;
+		}
+		.innermodaldiv,.innermodaldiv1
+		{
+			width: 90%;
+			height: 40px;
+			margin-left: 5%;
+			/*background-color: white;*/
+		}
+		.innermodaldiv1
+		{
+			margin-top: 10px;
+		}
+		.modalinner
+		{
+			width: 50%;
+			height: 100%;
+			float: left;
+		}
+		.inputbox
+		{
+			width: 90%;
+			height: 100%;
+			padding-left: 10px;
+			border-radius: 7px;
+		}
+		#insert,#close_modal,#close_modal_update,#insertupdate
+		{
+			height: 90%;
+			color: white;
+			border: none;
+			font-size: 0.8em;
+			border-radius: 7px;
+			border: 1px solid gold;
+		}
+		#insert,#insertupdate
+		{
+			background:linear-gradient(0.25turn,yellow,green,red);
+		}
+		#close_modal,#close_modal_update
+		{
+			background:linear-gradient(0.25turn,cyan,lime,yellow);
+		}
+		.resfont
+		{
+			color:darkblue;
+			font-weight: bold;
+		}
+		.font
+		{
+			color: blue;
+		}
+		#flex_hide
+		{
+			display: none;
+		}
+		.close_flex,.delete,.update
+		{
+			border: none;
+			border-radius: 7px;
+			color: white;
+			margin-left: 0%;
+		}
+		.close_flex
+		{
+			background-color: blue;
+		}
+		.delete
+		{
+			background-color: red;margin-left: 5px;
+		}
+		.update
+		{
+			background-color: green;margin-left: 5px;
+		}
+		.foot
+		{
+			text-align: center;
+			margin-top: 95%;
+		}
+		table
+		{
+			text-align: left;
+		}
+		#search
+		{
+			margin-left: 20px;
+			padding-left: 10px;
+		}
+		.addsearchclass
+		{
+			display: none;
+		}
+	</style>
+</head>
+
+<body class="fixed-sn white-skin">
+
+	<!-- Main Navigation -->
+	<header>
+		
+		<!-- Navbar -->
+		<nav class="navbar fixed-top navbar-expand-lg scrolling-navbar double-nav" id="nav_id">
+			<!-- SideNav slide-out button -->
+			<div class="float-left"> <a href="#" data-activates="slide-out" class="button-collapse"><i class="fas fa-bars" style="display: none;"></i></a>
+			</div>
+			<!-- Breadcrumb -->
+			<div class="title_text mr-auto align-center text-center">
+				<h4 id="header_id">ကိုယ်ရေးဖိုင်</h4>
+			</div>
+		</nav>
+		
+	</header>
+	<!-- Main Navigation -->
+
+	<!-- Main layout -->
+	<main>
+		<div class="container-fluid">
+			<!-- Section: Intro -->
+			<section id="intro_section">
+				<div class="newcarddiv">
+					<input type="button" name="newcardbtn" id="newcardbtn" value="အသစ်ထည့်">
+					<input type="search" id="search" onkeyup="searchfun()" placeholder="ရှာမည်...">
+				</div>
+				<br>
+				<!--=======================flex div===========================-->
+				<div class="flex_main">	
+					<div class="flex_inner" style="display: none;">
+						
+					</div>
+				</div>
+				<div class="flex_main1">
+					<!--=============== for search ======================-->
+				</div>
+				<!--=======================End flex div===========================-->
+
+				<!--=======================modal div============================-->
+				<div class="modaldiv">
+					<span style="color: blue;font-weight: bold;padding-left: 15px;"><br>.    လိပ်စာကဒ်အသစ်ထည့်ရန်</span><hr>
+					<div class="innermodaldiv">
+						<div class="modalinner">
+							<input type="text" id="num" class="inputbox" placeholder="ကိုယ်ပိုင်အမှတ်...">
+						</div>
+						<div class="modalinner">
+							<input type="text" id="rank" class="inputbox" placeholder="အဆင့်...">
+						</div>
+					</div>
+					<div class="innermodaldiv1">
+						<div class="modalinner">
+							<input type="text" id="name" class="inputbox" placeholder="အမည်...">
+						</div>
+						<div class="modalinner">
+							<input type="text" id="unit" class="inputbox" placeholder="တပ်...">
+						</div>
+					</div>
+					<div class="innermodaldiv1">
+						<div class="modalinner">
+							<input type="text" id="blood" class="inputbox" placeholder="သွေးအုပ်စု...">
+						</div>
+						<div class="modalinner">
+							<input type="text" id="education" class="inputbox" placeholder="ပညာအရည်အချင်း...">
+						</div>
+					</div>
+					<div class="innermodaldiv1">
+						<div class="modalinner">
+							<input type="text" id="parent" class="inputbox" placeholder="မိဘ...">
+						</div>
+						<div class="modalinner">
+							<input type="text" id="father" class="inputbox" placeholder="အမွေခံ...">
+						</div>
+					</div>
+					<div class="innermodaldiv1">
+						<div class="modalinner">
+							<input type="text" id="phone" class="inputbox" placeholder="ဖုန်းနံပါတ်...">
+						</div>
+						<div class="modalinner">
+							<input type="text" id="address" class="inputbox" placeholder="မိဘလိပ်စာ...">
+						</div>
+					</div>
+					<div class="innermodaldiv1">
+						<div class="modalinner">
+							<input type="text" id="note" class="inputbox" placeholder="မှတ်ချက်...">
+						</div>
+						<div class="modalinner">
+							<input type="button" id="insert" value="သိမ်းမည်">
+							<input type="button" id="close_modal" value="ပိတ်မည်">
+						</div>
+					</div>
+				</div>
+				<!--=======================End modal div============================-->
+				<!--=======================Update modal div============================-->
+				<div class="modaldivupdate">
+					<span style="color: blue;font-weight: bold;padding-left: 15px;"><br>.      လိပ်စာကဒ်ပြင်ဆင်ရန်</span><hr>
+					<div class="innermodaldiv">
+						<div class="modalinner">
+							<input type="text" id="unum" class="inputbox" placeholder="ကိုယ်ပိုင်အမှတ်...">
+						</div>
+						<div class="modalinner">
+							<input type="text" id="urank" class="inputbox" placeholder="အဆင့်...">
+						</div>
+					</div>
+					<div class="innermodaldiv1">
+						<div class="modalinner">
+							<input type="text" id="uname" class="inputbox" placeholder="အမည်...">
+						</div>
+						<div class="modalinner">
+							<input type="text" id="uunit" class="inputbox" placeholder="တပ်...">
+						</div>
+					</div>
+					<div class="innermodaldiv1">
+						<div class="modalinner">
+							<input type="text" id="ublood" class="inputbox" placeholder="သွေးအုပ်စု...">
+						</div>
+						<div class="modalinner">
+							<input type="text" id="ueducation" class="inputbox" placeholder="ပညာအရည်အချင်း...">
+						</div>
+					</div>
+					<div class="innermodaldiv1">
+						<div class="modalinner">
+							<input type="text" id="uparent" class="inputbox" placeholder="မိဘ...">
+						</div>
+						<div class="modalinner">
+							<input type="text" id="ufather" class="inputbox" placeholder="အမွေခံ...">
+						</div>
+					</div>
+					<div class="innermodaldiv1">
+						<div class="modalinner">
+							<input type="text" id="uphone" class="inputbox" placeholder="ဖုန်းနံပါတ်...">
+						</div>
+						<div class="modalinner">
+							<input type="text" id="uaddress" class="inputbox" placeholder="မိဘလိပ်စာ...">
+						</div>
+					</div>
+					<div class="innermodaldiv1">
+						<div class="modalinner">
+							<input type="text" id="unote" class="inputbox" placeholder="မှတ်ချက်...">
+						</div>
+						<div class="modalinner">
+							<input type="button" id="insertupdate" value="သိမ်းမည်">
+							<input type="button" id="close_modal_update" value="ပိတ်မည်">
+							<input type="hidden" id="updateid" class="inputbox">
+						</div>
+					</div>
+				</div>
+				<!--=======================End modal div============================-->
+			</section>
+			<!-- Section: Intro -->
+		</div>
+	</main>
+	<!-- Main layout -->
+
+	<!-- Footer -->
+	<footer class="page-footer pt-0 mt-5 rgba-stylish-light">
+		<!-- Copyright -->
+		<div class="footer-copyright py-3 text-center" style="display: none;">
+			<div class="container-fluid">Developed By : <a href="#" target="_blank"> TEAM CS </a>
+			</div>
+		</div>
+		<div class="foot">
+			<span>Developed By : TEAM CS</span><br>
+			<span>Version 2.0</span>
+		</div>
+	</footer>
+	<!-- Footer -->
+
+
+	<!-- SCRIPTS -->
+	<!-- JQuery -->
+	<script src="js/jquery-3.4.1.min.js"></script>
+	<!-- Bootstrap tooltips -->
+	<script type="text/javascript" src="js/popper.min.js"></script>
+	<!-- Bootstrap core JavaScript -->
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<!-- MDB core JavaScript -->
+	<!-- <script type="text/javascript" src="js/mdb.min.js"></script> -->
+
+	
+	<script src="js/modernizr.js"></script>
+	<script src="js/popper.min.js"></script>
+	<script src="js/underscore.min.js"></script>
+	<script src="js/backbone.js"></script>
+
+
+	<!-- Initializations -->
+	<script type="text/javascript">
+		function searchfun()
+		{
+			console.log("search fun ok");
+			var search=$("#search").val();console.log("search :"+search);
+			var org=new Array();
+			org=localStorage.getItem('localdata');//console.log("length "+org.length);
+			var orgdecode=JSON.parse(org);//alert(orgdecode);
+			if(orgdecode!=null)
+			{	console.log("have localstorage");
+				$(".flex_main1").empty();
+				for(i=0;i<orgdecode.length;i++)
+				{
+					//if (orgdecode[i]['num']==search || orgdecode[i]['name']==search)
+					if(( orgdecode[i]['num'].indexOf( search ) != -1 ) || ( orgdecode[i]['name'].indexOf( search ) != -1 ))
+					{
+						console.log("same val index :"+i);
+						$(".flex_main1").append("<div class='flex_inner1 flex_show' id='flex_show'><table><tr><td class='font'>ကပအမှတ်:</td><td class='resfont'>"+orgdecode[i]['num']+"</td></tr><tr><td class='font'>အဆင့်:</td><td class='resfont'>"+orgdecode[i]['rank']+"</td></tr><tr><td class='font'>အမည်:</td><td class='resfont'>"+orgdecode[i]['name']+"</td></tr></table></div><div class='flex_inner flex_hide' id='flex_hide'> <table><tr><td class='font'>ကပအမှတ်:</td><td class='resfont'>"+orgdecode[i]['num']+"</td></tr><tr><td class='font'>အဆင့်:</td><td class='resfont'>"+orgdecode[i]['rank']+"</td></tr><tr><td class='font'>အမည်:</td><td class='resfont'>"+orgdecode[i]['name']+"</td></tr><tr><td class='font'>တပ် :</td><td class='resfont'>"+orgdecode[i]['unit']+"</td></tr><tr><td class='font'>သွေးအုပ်စု :</td><td class='resfont'>"+orgdecode[i]['blood']+"</td></tr><tr><td class='font'>ပညာအရည်အချင်း :</td><td class='resfont'>"+orgdecode[i]['education']+"</td></tr><tr><td class='font'>မိဘ :</td><td class='resfont'>"+orgdecode[i]['parent']+"</td></tr><tr><td class='font'>အမွေခံ :</td><td class='resfont'>"+orgdecode[i]['father']+"</td></tr><tr><td class='font'>ဖုန်း :</td><td class='resfont'>"+orgdecode[i]['phone']+"</td></tr><tr><td class='font'>လိပ်စာ :</td><td class='resfont'>"+orgdecode[i]['address']+"</td></tr><tr><td class='font'>မှတ်ချက် :</td><td class='resfont'>"+orgdecode[i]['note']+"</td></tr></table> <input type='button' class='close_flex' value='ပိတ်'><input type='hidden' value='"+orgdecode[i]['num']+"'><input type='hidden' value='"+orgdecode[i]['name']+"'><input type='hidden' class='delete' value='ဖျက်'></div>");
+					}
+				}
+			}
+
+			$(".flex_inner").addClass("addsearchclass");
+			if(search===null || search=="")
+			{
+				$(".flex_inner").removeClass("addsearchclass");
+				$(".flex_main1").empty();
+			}
+		}
+
+		//========================Default data==========================
+		$(document).ready(function(){ //alert("ok");
+			$(document).on("click","#newcardbtn",function(){ //alert("ookk");
+				$(".modaldiv").show(); 
+			});
+			$(document).on("click","#close_modal",function(){ //alert("ookk");
+				$(".modaldiv").hide();
+			});
+			$(document).on("click","#close_modal_update",function(){ //alert("ookk");
+				$(".modaldivupdate").hide();
+			});
+
+			var org=new Array();
+			org=localStorage.getItem('localdata');//console.log("length "+org.length);
+			var orgdecode=JSON.parse(org);//alert(orgdecode);
+			if(orgdecode!=null)
+			{
+				for(i=0;i<orgdecode.length;i++)
+				{
+					console.log(orgdecode[i]['note']);
+					$(".flex_main").append("<div class='flex_inner flex_show' id='flex_show'><table><tr><td class='font'>ကပအမှတ်:</td><td class='resfont'>"+orgdecode[i]['num']+"</td></tr><tr><td class='font'>အဆင့်:</td><td class='resfont'>"+orgdecode[i]['rank']+"</td></tr><tr><td class='font'>အမည်:</td><td class='resfont'>"+orgdecode[i]['name']+"</td></tr></table></div><div class='flex_inner flex_hide' id='flex_hide'> <table><tr><td class='font'>ကပအမှတ်:</td><td class='resfont'>"+orgdecode[i]['num']+"</td></tr><tr><td class='font'>အဆင့်:</td><td class='resfont'>"+orgdecode[i]['rank']+"</td></tr><tr><td class='font'>အမည်:</td><td class='resfont'>"+orgdecode[i]['name']+"</td></tr><tr><td class='font'>တပ် :</td><td class='resfont'>"+orgdecode[i]['unit']+"</td></tr><tr><td class='font'>သွေးအုပ်စု :</td><td class='resfont'>"+orgdecode[i]['blood']+"</td></tr><tr><td class='font'>ပညာအရည်အချင်း :</td><td class='resfont'>"+orgdecode[i]['education']+"</td></tr><tr><td class='font'>မိဘ :</td><td class='resfont'>"+orgdecode[i]['parent']+"</td></tr><tr><td class='font'>အမွေခံ :</td><td class='resfont'>"+orgdecode[i]['father']+"</td></tr><tr><td class='font'>ဖုန်း :</td><td class='resfont'>"+orgdecode[i]['phone']+"</td></tr><tr><td class='font'>လိပ်စာ :</td><td class='resfont'>"+orgdecode[i]['address']+"</td></tr><tr><td class='font'>မှတ်ချက် :</td><td class='resfont'>"+orgdecode[i]['note']+"</td></tr></table> <input type='button' class='close_flex' value='ပိတ်'><input type='hidden' value='"+orgdecode[i]['num']+"'><input type='hidden' value='"+orgdecode[i]['name']+"'><input type='button' class='delete' value='ဖျက်'><input type='button' class='update' value='ပြင်'><input type='hidden' value='"+i+"'></div>");
+				}
+			}
+
+			//========================Insert data to localStorage==========================
+			$(document).on("click","#insert",function(){ //alert("insert ok");
+
+				var org=new Array();
+				org=JSON.parse(localStorage.getItem('localdata'));//console.log("length "+org.length);
+
+				var num=$("#num").val();
+				var rank=$("#rank").val();
+				var name=$("#name").val();
+				var unit=$("#unit").val();
+				var blood=$("#blood").val();
+				var education=$("#education").val();
+				var parent=$("#parent").val();
+				var father=$("#father").val();
+				var phone=$("#phone").val();
+				var address=$("#address").val();
+				var note=$("#note").val();
+				var arr=new Array();
+				arr=[{num,rank,name,unit,blood,education,parent,father,phone,address,note}];//alert(arr);
+
+				
+
+				localStorage.setItem("localdata",JSON.stringify(arr));
+				var decode=JSON.parse(localStorage.localdata);console.log(decode[0]['num']);
+
+				//var org=new Array();
+				//org=JSON.parse(localStorage.getItem('localdataall'));
+				//var all=org.concat(decode);
+				//localStorage.setItem("localdataall",JSON.stringify(arr));
+				
+
+				$(".flex_main").append("<div class='flex_inner flex_show' id='flex_show'> <table><tr><td class='font'>ကပအမှတ်:</td><td class='resfont'>"+decode[0]['num']+"</td></tr><tr><td class='font'>အဆင့်:</td><td class='resfont'>"+decode[0]['rank']+"</td></tr><tr><td class='font'>အမည်:</td><td class='resfont'>"+decode[0]['name']+"</td></tr></table> </div><div class='flex_inner flex_hide' id='flex_hide'> <table><tr><td class='font'>ကပအမှတ်:</td><td class='resfont'>"+decode[0]['num']+"</td></tr><tr><td class='font'>အဆင့်:</td><td class='resfont'>"+decode[0]['rank']+"</td></tr><tr><td class='font'>အမည်:</td><td class='resfont'>"+decode[0]['name']+"</td></tr><tr><td class='font'>တပ် :</td><td class='resfont'>"+decode[0]['unit']+"</td></tr><tr><td class='font'>သွေးအုပ်စု :</td><td class='resfont'>"+decode[0]['blood']+"</td></tr><tr><td class='font'>ပညာအရည်အချင်း :</td><td class='resfont'>"+decode[0]['education']+"</td></tr><tr><td class='font'>မိဘ :</td><td class='resfont'>"+decode[0]['parent']+"</td></tr><tr><td class='font'>အမွေခံ :</td><td class='resfont'>"+decode[0]['father']+"</td></tr><tr><td class='font'>ဖုန်း :</td><td class='resfont'>"+decode[0]['phone']+"</td></tr><tr><td class='font'>လိပ်စာ :</td><td class='resfont'>"+decode[0]['address']+"</td></tr><tr><td class='font'>မှတ်ချက် :</td><td class='resfont'>"+decode[0]['note']+"</td></tr></table> <input type='button' class='close_flex' value='ပိတ်'><input type='hidden' value='"+decode[0]['num']+"'><input type='hidden' value='"+decode[0]['name']+"'><input type='button' class='delete' value='ဖျက်'><input type='button' class='update' value='ပြင်'><input type='hidden' value='"+i+"'></div>");
+				if(org===null)
+				{
+					localStorage.setItem("localdata",JSON.stringify(arr));
+				}
+				else
+				{
+					var all=org.concat(arr);
+					localStorage.setItem("localdata",JSON.stringify(all));
+				}
+				
+				$(".modaldiv").hide();
+				//$(".inputbox").val(" ");
+			});
+			$(document).on("click",".flex_show",function(){ //alert("Ok oK");
+				$(this).next().show();
+				$(this).hide();
+			});
+			$(document).on("click",".close_flex",function(){ //alert("Ok oK");
+				$(this).parent().prev().show();
+				$(this).parent().hide();
+			});
+
+			//=====================delete=================
+			$(document).on("click",".delete",function(){ console.log("delete btn ok");
+				var name=$(this).prev().prev().val();console.log("delete name: "+name);
+				var phone=$(this).prev().val();console.log("delete phone: "+phone);
+
+				var indexid="";
+				var org=new Array();
+				org=localStorage.getItem('localdata');//console.log("length "+org.length);
+				var orgdecode=JSON.parse(org);
+				for(i=0;i<orgdecode.length;i++)
+				{
+					if(orgdecode[i]['name']==name && orgdecode[i]['phone']==phone)
+					{
+						indexid=i;
+					}
+				}
+				console.log("delete indexid is :"+indexid);
+				orgdecode.splice(indexid,1);
+				localStorage.setItem("localdata",JSON.stringify(orgdecode));
+				$(this).parent().hide();
+				$(this).parent().prev().hide();
+			});
+			$(document).on("click",".update",function(){ console.log("update ok");
+				var no=$(this).next().val(); console.log("index :"+no);
+
+				var org=new Array();
+				org=localStorage.getItem('localdata');//console.log("length "+org.length);
+				var orgdecode=JSON.parse(org);//alert(orgdecode);
+				if(orgdecode!=null)
+				{
+					$("#unum").val(orgdecode[no]['num']);
+					$("#urank").val(orgdecode[no]['rank']);
+					$("#uname").val(orgdecode[no]['name']);
+					$("#uunit").val(orgdecode[no]['unit']);
+					$("#ublood").val(orgdecode[no]['blood']);
+					$("#ueducation").val(orgdecode[no]['education']);
+					$("#uparent").val(orgdecode[no]['parent']);
+					$("#ufather").val(orgdecode[no]['father']);
+					$("#uphone").val(orgdecode[no]['phone']);
+					$("#uaddress").val(orgdecode[no]['address']);
+					$("#unote").val(orgdecode[no]['note']);
+					$("#updateid").val(no);
+					$(".modaldivupdate").show();
+				}
+			});
+			//===================update data=================
+			$(document).on("click","#insertupdate",function(){ console.log("insertupdate ok");
+				var num=$("#unum").val();
+				var rank=$("#urank").val();
+				var name=$("#uname").val();
+				var unit=$("#uunit").val();
+				var blood=$("#ublood").val();
+				var education=$("#ueducation").val();
+				var parent=$("#uparent").val();
+				var father=$("#ufather").val();
+				var phone=$("#uphone").val();
+				var address=$("#uaddress").val();
+				var note=$("#unote").val();console.log("update value of name :"+name);
+				var updateindex=$("#updateid").val();
+
+				var org=new Array();
+				org=localStorage.getItem('localdata');
+				var orgdecode=JSON.parse(org);//console.log("updata arrs :"+orgdecode[1]['name']);
+				if(orgdecode!=null)
+				{
+					var narr=new Array();
+					orgdecode[updateindex]={num,rank,name,unit,blood,education,parent,father,phone,address,note};console.log(orgdecode);
+					localStorage.setItem("localdata",JSON.stringify(orgdecode));
+
+					//===============reload update data=================
+					$(".flex_main").empty();
+					for(i=0;i<orgdecode.length;i++)
+					{
+						console.log(orgdecode[i]['note']);
+						$(".flex_main").append("<div class='flex_inner flex_show' id='flex_show'><table><tr><td class='font'>ကပအမှတ်:</td><td class='resfont'>"+orgdecode[i]['num']+"</td></tr><tr><td class='font'>အဆင့်:</td><td class='resfont'>"+orgdecode[i]['rank']+"</td></tr><tr><td class='font'>အမည်:</td><td class='resfont'>"+orgdecode[i]['name']+"</td></tr></table></div><div class='flex_inner flex_hide' id='flex_hide'> <table><tr><td class='font'>ကပအမှတ်:</td><td class='resfont'>"+orgdecode[i]['num']+"</td></tr><tr><td class='font'>အဆင့်:</td><td class='resfont'>"+orgdecode[i]['rank']+"</td></tr><tr><td class='font'>အမည်:</td><td class='resfont'>"+orgdecode[i]['name']+"</td></tr><tr><td class='font'>တပ် :</td><td class='resfont'>"+orgdecode[i]['unit']+"</td></tr><tr><td class='font'>သွေးအုပ်စု :</td><td class='resfont'>"+orgdecode[i]['blood']+"</td></tr><tr><td class='font'>ပညာအရည်အချင်း :</td><td class='resfont'>"+orgdecode[i]['education']+"</td></tr><tr><td class='font'>မိဘ :</td><td class='resfont'>"+orgdecode[i]['parent']+"</td></tr><tr><td class='font'>အမွေခံ :</td><td class='resfont'>"+orgdecode[i]['father']+"</td></tr><tr><td class='font'>ဖုန်း :</td><td class='resfont'>"+orgdecode[i]['phone']+"</td></tr><tr><td class='font'>လိပ်စာ :</td><td class='resfont'>"+orgdecode[i]['address']+"</td></tr><tr><td class='font'>မှတ်ချက် :</td><td class='resfont'>"+orgdecode[i]['note']+"</td></tr></table> <input type='button' class='close_flex' value='ပိတ်'><input type='hidden' value='"+orgdecode[i]['num']+"'><input type='hidden' value='"+orgdecode[i]['name']+"'><input type='button' class='delete' value='ဖျက်'><input type='button' class='update' value='ပြင်'><input type='hidden' value='"+i+"'></div>");
+					}
+				}
+				//console.log(orgdecode[updateindex]["name"]);
+				$(".modaldivupdate").hide();
+			});
+			 
+		});
+	</script>
+	<!-- Our JavaScript -->
+	
+</body>
+</html>
